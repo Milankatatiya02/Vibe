@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, MessageSquare, Globe, Users, User } from 'lucide-react';
+import { Home, MessageSquare, Search, Mail, User } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
 export function MobileNav() {
@@ -13,8 +13,8 @@ export function MobileNav() {
   const navItems = [
     { path: '/', icon: Home, label: 'Home' },
     { path: '/feed', icon: MessageSquare, label: 'Feed' },
-    { path: '/communities', icon: Globe, label: 'Communities' },
-    { path: '/friends', icon: Users, label: 'Friends' },
+    { path: '/search', icon: Search, label: 'Search' },
+    { path: '/messages', icon: Mail, label: 'DMs' },
     { path: `/profile/${user.id}`, icon: User, label: 'Profile' },
   ];
 

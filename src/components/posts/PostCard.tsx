@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Heart, MessageCircle, Share2, MapPin } from 'lucide-react';
+import { Heart, MessageCircle, Share2, MapPin, Bookmark } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { formatDistanceToNow } from 'date-fns';
@@ -8,6 +8,7 @@ import { Post } from '@/types';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/useAuth';
 import { Badge } from '@/components/ui/badge';
+import { useState, useEffect } from 'react';
 
 interface PostCardProps {
   post: Post;
@@ -16,6 +17,22 @@ interface PostCardProps {
 
 export function PostCard({ post, onLikeChange }: PostCardProps) {
   const { user } = useAuth();
+  const [isSaved, setIsSaved] = useState(false);
+
+  useEffect(() => {
+    checkIfSaved();
+  }, [post.id, user]);
+
+  const checkIfSaved = async () => {
+    if (!user) return;
+    const { data } = await supabase
+      .from('saved_posts')
+      .select('id')
+      .eq('user_id', user.id)
+      .eq('post_id', post.id)
+      .single();
+    setIsSaved(!!data);
+  };
 
   const handleLike = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -34,6 +51,28 @@ export function PostCard({ post, onLikeChange }: PostCardProps) {
     } catch (error) {
       console.error('Error toggling like:', error);
       toast.error('Failed to update like');
+    }
+  };
+
+  const handleSave = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!user) {
+      toast.error('Please sign in to save posts');
+      return;
+    }
+
+    try {
+      if (isSaved) {
+        await supabase.from('saved_posts').delete().eq('post_id', post.id).eq('user_id', user.id);
+        toast.success('Post removed from saved');
+      } else {
+        await supabase.from('saved_posts').insert({ post_id: post.id, user_id: user.id });
+        toast.success('Post saved!');
+      }
+      setIsSaved(!isSaved);
+    } catch (error) {
+      console.error('Error toggling save:', error);
+      toast.error('Failed to save post');
     }
   };
 
@@ -132,6 +171,14 @@ export function PostCard({ post, onLikeChange }: PostCardProps) {
             <MessageCircle className="w-4 h-4" />
             <span className="text-xs">{post.comment_count || 0}</span>
           </Link>
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleSave}
+          className={isSaved ? 'text-primary' : ''}
+        >
+          <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
         </Button>
         <Button variant="ghost" size="sm" onClick={handleShare}>
           <Share2 className="w-4 h-4" />

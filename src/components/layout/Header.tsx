@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { MessageSquare, Users, TrendingUp, Settings, LogOut, User, Bell, Globe, PenSquare } from 'lucide-react';
+import { MessageSquare, Settings, LogOut, User, Bell, PenSquare, Search, Bookmark } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -64,6 +64,16 @@ export function Header() {
                 asChild
                 className="hidden md:flex"
               >
+                <Link to="/search">
+                  <Search className="w-5 h-5" />
+                </Link>
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                asChild
+                className="hidden md:flex"
+              >
                 <Link to="/create">
                   <PenSquare className="w-5 h-5" />
                 </Link>
@@ -109,6 +119,12 @@ export function Header() {
                     <Link to={`/profile/${user.id}`}>
                       <User className="w-4 h-4 mr-2" />
                       Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/saved">
+                      <Bookmark className="w-4 h-4 mr-2" />
+                      Saved Posts
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>

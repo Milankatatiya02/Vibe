@@ -4,6 +4,7 @@ export interface User {
   username: string;
   anonymous_name?: string;
   avatar_color?: string;
+  avatar_url?: string;
   interests?: string[];
   is_online?: boolean;
   last_seen?: string;
@@ -12,6 +13,9 @@ export interface User {
   is_public?: boolean;
   banner_url?: string;
   social_links?: Record<string, string>;
+  follower_count?: number;
+  following_count?: number;
+  post_count?: number;
 }
 
 export interface Post {
@@ -126,6 +130,32 @@ export interface Notification {
   link?: string;
   is_read: boolean;
   created_at: string;
+}
+
+export interface SavedPost {
+  id: string;
+  user_id: string;
+  post_id: string;
+  saved_at: string;
+  post?: Post;
+}
+
+export interface Follow {
+  id: string;
+  follower_id: string;
+  following_id: string;
+  created_at: string;
+}
+
+export interface DirectMessage {
+  id: string;
+  sender_id: string;
+  receiver_id: string;
+  content: string;
+  is_read: boolean;
+  created_at: string;
+  sender?: User;
+  receiver?: User;
 }
 
 export interface Badge {

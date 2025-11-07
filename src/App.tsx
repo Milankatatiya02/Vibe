@@ -19,6 +19,9 @@ import { ChatHistoryPage } from '@/pages/ChatHistoryPage';
 import { FriendsPage } from '@/pages/FriendsPage';
 import { NotificationsPage } from '@/pages/NotificationsPage';
 import { SettingsPage } from '@/pages/SettingsPage';
+import { SearchPage } from '@/pages/SearchPage';
+import { SavedPostsPage } from '@/pages/SavedPostsPage';
+import { DirectMessagesPage } from '@/pages/DirectMessagesPage';
 import { Toaster } from '@/components/ui/sonner';
 import { Loader2 } from 'lucide-react';
 
@@ -148,10 +151,34 @@ function App() {
             
             {/* Social Routes */}
             <Route
+              path="/search"
+              element={
+                <ProtectedRoute>
+                  <SearchPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/saved"
+              element={
+                <ProtectedRoute>
+                  <SavedPostsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/friends"
               element={
                 <ProtectedRoute>
                   <FriendsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/messages"
+              element={
+                <ProtectedRoute>
+                  <DirectMessagesPage />
                 </ProtectedRoute>
               }
             />
