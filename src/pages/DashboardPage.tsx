@@ -1,172 +1,109 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { MessageSquare, Globe, Users, Sparkles, TrendingUp, Image, UserPlus, Bell } from 'lucide-react';
+import { Globe, Users, TrendingUp, UserPlus, History, Sparkles } from 'lucide-react';
 
 export function DashboardPage() {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] gradient-bg">
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="text-center mb-12 animate-fade-in">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Welcome back, <span className="gradient-text">{user?.username}</span>! 👋
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            What would you like to do today?
-          </p>
-        </div>
+    <div className="min-h-[calc(100vh-4rem)] px-4 py-6 content-container">
+      {/* Hero Section */}
+      <div className="max-w-3xl mx-auto text-center mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold mb-3 gradient-text">
+          Welcome back, {user?.username}
+        </h1>
+        <p className="text-sm md:text-base text-muted-foreground">
+          What would you like to explore today?
+        </p>
+      </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {/* Community Section */}
-          <Card className="glass card-hover animate-slide-up">
-            <CardHeader>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
-                  <Sparkles className="w-6 h-6 text-white" />
-                </div>
-                <CardTitle className="text-2xl">Community</CardTitle>
-              </div>
-              <CardDescription className="text-base">
-                Share your thoughts, discover content, and connect with the community
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button asChild className="w-full justify-start btn-gradient" size="lg">
-                <Link to="/feed">
-                  <TrendingUp className="w-5 h-5 mr-3" />
-                  View Feed
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className="w-full justify-start" size="lg">
-                <Link to="/create">
-                  <Image className="w-5 h-5 mr-3" />
-                  Create Post
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className="w-full justify-start" size="lg">
-                <Link to="/explore">
-                  <Globe className="w-5 h-5 mr-3" />
-                  Explore
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
+      {/* Main Actions */}
+      <div className="max-w-5xl mx-auto grid sm:grid-cols-2 gap-4 mb-8">
+        {/* Community Card */}
+        <Card className="glass card-hover cursor-pointer group" onClick={() => navigate('/feed')}>
+          <CardHeader>
+            <div className="p-3 rounded-xl bg-gradient-to-br from-primary to-accent mb-3 w-fit group-hover:scale-110 transition-transform">
+              <TrendingUp className="w-6 h-6 text-white" />
+            </div>
+            <CardTitle className="text-lg">Community Feed</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              Share posts, discover content, and engage
+            </p>
+            <Button className="btn-gradient w-full" size="sm">
+              Explore
+            </Button>
+          </CardContent>
+        </Card>
 
-          {/* Communities Section */}
-          <Card className="glass card-hover animate-slide-up" style={{ animationDelay: '0.1s' }}>
-            <CardHeader>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500">
-                  <Users className="w-6 h-6 text-white" />
-                </div>
-                <CardTitle className="text-2xl">Communities</CardTitle>
-              </div>
-              <CardDescription className="text-base">
-                Join topic-based groups and engage with like-minded people
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button asChild className="w-full justify-start btn-gradient" size="lg">
-                <Link to="/communities">
-                  <Globe className="w-5 h-5 mr-3" />
-                  Browse Communities
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className="w-full justify-start" size="lg">
-                <Link to="/communities/create">
-                  <Sparkles className="w-5 h-5 mr-3" />
-                  Create Community
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
+        {/* Stranger Chat Card */}
+        <Card className="glass card-hover cursor-pointer group" onClick={() => navigate('/chat-match')}>
+          <CardHeader>
+            <div className="p-3 rounded-xl bg-gradient-to-br from-accent to-primary mb-3 w-fit group-hover:scale-110 transition-transform">
+              <Users className="w-6 h-6 text-white" />
+            </div>
+            <CardTitle className="text-lg">Stranger Chat</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              Connect anonymously with strangers
+            </p>
+            <Button className="btn-gradient w-full" size="sm">
+              Start Chat
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
 
-          {/* Stranger Chat Section */}
-          <Card className="glass card-hover animate-slide-up" style={{ animationDelay: '0.2s' }}>
-            <CardHeader>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500">
-                  <MessageSquare className="w-6 h-6 text-white" />
-                </div>
-                <CardTitle className="text-2xl">Stranger Chat</CardTitle>
-              </div>
-              <CardDescription className="text-base">
-                Talk anonymously with random people from around the world
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button asChild className="w-full justify-start btn-gradient" size="lg">
-                <Link to="/chat-match">
-                  <Users className="w-5 h-5 mr-3" />
-                  Find Stranger
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className="w-full justify-start" size="lg">
-                <Link to="/chat-history">
-                  <MessageSquare className="w-5 h-5 mr-3" />
-                  Chat History
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Friends & Notifications */}
-          <Card className="glass card-hover animate-slide-up" style={{ animationDelay: '0.3s' }}>
-            <CardHeader>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-orange-500 to-red-500">
-                  <UserPlus className="w-6 h-6 text-white" />
-                </div>
-                <CardTitle className="text-2xl">Social</CardTitle>
-              </div>
-              <CardDescription className="text-base">
-                Manage your friends and stay updated with notifications
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button asChild className="w-full justify-start btn-gradient" size="lg">
-                <Link to="/friends">
-                  <UserPlus className="w-5 h-5 mr-3" />
-                  Friends
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className="w-full justify-start" size="lg">
-                <Link to="/notifications">
-                  <Bell className="w-5 h-5 mr-3" />
-                  Notifications
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Quick Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 animate-slide-up" style={{ animationDelay: '0.4s' }}>
-          <Card className="glass">
+      {/* Quick Links */}
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-xl font-bold mb-4">Quick Access</h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <Card
+            className="glass card-hover cursor-pointer"
+            onClick={() => navigate('/communities')}
+          >
             <CardContent className="p-4 text-center">
-              <p className="text-2xl font-bold gradient-text">24/7</p>
-              <p className="text-sm text-muted-foreground">Always Active</p>
+              <Globe className="w-6 h-6 mb-2 text-primary mx-auto" />
+              <p className="font-semibold text-sm mb-0.5">Communities</p>
+              <p className="text-xs text-muted-foreground">Join groups</p>
             </CardContent>
           </Card>
-          <Card className="glass">
+
+          <Card
+            className="glass card-hover cursor-pointer"
+            onClick={() => navigate('/friends')}
+          >
             <CardContent className="p-4 text-center">
-              <p className="text-2xl font-bold gradient-text">100%</p>
-              <p className="text-sm text-muted-foreground">Anonymous</p>
+              <UserPlus className="w-6 h-6 mb-2 text-primary mx-auto" />
+              <p className="font-semibold text-sm mb-0.5">Friends</p>
+              <p className="text-xs text-muted-foreground">Your connections</p>
             </CardContent>
           </Card>
-          <Card className="glass">
+
+          <Card
+            className="glass card-hover cursor-pointer"
+            onClick={() => navigate('/chat-history')}
+          >
             <CardContent className="p-4 text-center">
-              <p className="text-2xl font-bold gradient-text">Safe</p>
-              <p className="text-sm text-muted-foreground">Moderated</p>
+              <History className="w-6 h-6 mb-2 text-primary mx-auto" />
+              <p className="font-semibold text-sm mb-0.5">History</p>
+              <p className="text-xs text-muted-foreground">Past chats</p>
             </CardContent>
           </Card>
-          <Card className="glass">
+
+          <Card
+            className="glass card-hover cursor-pointer"
+            onClick={() => navigate('/explore')}
+          >
             <CardContent className="p-4 text-center">
-              <p className="text-2xl font-bold gradient-text">Free</p>
-              <p className="text-sm text-muted-foreground">Forever</p>
+              <Sparkles className="w-6 h-6 mb-2 text-primary mx-auto" />
+              <p className="font-semibold text-sm mb-0.5">Explore</p>
+              <p className="text-xs text-muted-foreground">Discover</p>
             </CardContent>
           </Card>
         </div>

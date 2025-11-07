@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { Post } from '@/types';
 import { PostCard } from '@/components/posts/PostCard';
 import { Button } from '@/components/ui/button';
-import { Loader2, Plus, ArrowLeft } from 'lucide-react';
+import { Loader2, Plus } from 'lucide-react';
 
 export function FeedPage() {
   const navigate = useNavigate();
@@ -55,17 +55,12 @@ export function FeedPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
-          <h1 className="text-3xl font-bold">Community Feed</h1>
-        </div>
-        <Button onClick={() => navigate('/create')} className="btn-gradient">
-          <Plus className="w-5 h-5 mr-2" />
-          Create
+    <div className="max-w-4xl mx-auto px-4 py-6 content-container">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">Feed</h1>
+        <Button onClick={() => navigate('/create')} className="btn-gradient" size="sm">
+          <Plus className="w-4 h-4 md:mr-2" />
+          <span className="hidden md:inline">New Post</span>
         </Button>
       </div>
 
@@ -77,7 +72,7 @@ export function FeedPage() {
           </Button>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="masonry-grid">
           {posts.map((post) => (
             <PostCard key={post.id} post={post} onLikeChange={fetchPosts} />
           ))}

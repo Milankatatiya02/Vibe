@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { MessageSquare, Users, TrendingUp, Settings, LogOut, User, Bell, Globe } from 'lucide-react';
+import { MessageSquare, Users, TrendingUp, Settings, LogOut, User, Bell, Globe, PenSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -46,66 +46,32 @@ export function Header() {
   }, [user]);
 
   return (
-    <header className="sticky top-0 z-50 glass border-b">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <header className="sticky top-0 z-50 glass border-b backdrop-blur-xl">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex items-center justify-between h-14">
           <Link to={user ? '/' : '/login'} className="flex items-center gap-2 group">
-            <div className="p-2 rounded-xl bg-gradient-to-br from-primary to-accent group-hover:scale-110 transition-transform">
+            <div className="p-1.5 rounded-lg bg-gradient-to-br from-primary to-accent group-hover:scale-105 transition-transform">
               <MessageSquare className="w-5 h-5 text-white" />
             </div>
-            <span className="text-2xl font-bold gradient-text hidden sm:inline">Vibe</span>
+            <span className="text-xl font-bold gradient-text hidden sm:inline">ConnectVerse</span>
           </Link>
 
           {user ? (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <Button
-                variant={isActive('/feed') ? 'default' : 'ghost'}
-                size="sm"
+                variant="ghost"
+                size="icon"
                 asChild
                 className="hidden md:flex"
               >
-                <Link to="/feed">
-                  <TrendingUp className="w-4 h-4 mr-2" />
-                  Feed
-                </Link>
-              </Button>
-              <Button
-                variant={isActive('/chat-match') ? 'default' : 'ghost'}
-                size="sm"
-                asChild
-                className="hidden md:flex"
-              >
-                <Link to="/chat-match">
-                  <Users className="w-4 h-4 mr-2" />
-                  Chat
-                </Link>
-              </Button>
-              <Button
-                variant={isActive('/communities') ? 'default' : 'ghost'}
-                size="sm"
-                asChild
-                className="hidden md:flex"
-              >
-                <Link to="/communities">
-                  <Globe className="w-4 h-4 mr-2" />
-                  Communities
-                </Link>
-              </Button>
-              <Button
-                variant={isActive('/friends') ? 'default' : 'ghost'}
-                size="sm"
-                asChild
-                className="hidden lg:flex"
-              >
-                <Link to="/friends">
-                  <Users className="w-4 h-4 mr-2" />
-                  Friends
+                <Link to="/create">
+                  <PenSquare className="w-5 h-5" />
                 </Link>
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
-                className="relative"
+                className="relative hidden md:flex"
                 asChild
               >
                 <Link to="/notifications">
@@ -113,7 +79,7 @@ export function Header() {
                   {unreadCount > 0 && (
                     <Badge 
                       variant="destructive" 
-                      className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                      className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-[10px]"
                     >
                       {unreadCount > 9 ? '9+' : unreadCount}
                     </Badge>
@@ -122,7 +88,7 @@ export function Header() {
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="rounded-full">
+                  <Button variant="ghost" size="icon" className="rounded-full hidden md:flex">
                     <Avatar className="w-8 h-8">
                       <AvatarFallback 
                         className="text-white font-semibold"
@@ -139,71 +105,10 @@ export function Header() {
                     <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                   </div>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild className="md:hidden">
-                    <Link to="/feed">
-                      <TrendingUp className="w-4 h-4 mr-2" />
-                      Community Feed
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="md:hidden">
-                    <Link to="/chat-match">
-                      <Users className="w-4 h-4 mr-2" />
-                      Stranger Chat
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator className="md:hidden" />
-                  <DropdownMenuItem asChild className="md:hidden">
-                    <Link to="/communities">
-                      <Globe className="w-4 h-4 mr-2" />
-                      Communities
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="lg:hidden">
-                    <Link to="/friends">
-                      <Users className="w-4 h-4 mr-2" />
-                      Friends
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator className="md:hidden" />
-                  <DropdownMenuItem asChild>
-                    <Link to="/notifications">
-                      <Bell className="w-4 h-4 mr-2" />
-                      Notifications
-                      {unreadCount > 0 && (
-                        <Badge variant="destructive" className="ml-auto">
-                          {unreadCount}
-                        </Badge>
-                      )}
-                    </Link>
-                  </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <Link to={`/profile/${user.id}`}>
                       <User className="w-4 h-4 mr-2" />
-                      My Profile
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="md:hidden">
-                    <Link to="/communities">
-                      <Globe className="w-4 h-4 mr-2" />
-                      Communities
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="lg:hidden">
-                    <Link to="/friends">
-                      <Users className="w-4 h-4 mr-2" />
-                      Friends
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator className="md:hidden" />
-                  <DropdownMenuItem asChild>
-                    <Link to="/notifications">
-                      <Bell className="w-4 h-4 mr-2" />
-                      Notifications
-                      {unreadCount > 0 && (
-                        <Badge variant="destructive" className="ml-auto">
-                          {unreadCount}
-                        </Badge>
-                      )}
+                      Profile
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
@@ -221,12 +126,12 @@ export function Header() {
               </DropdownMenu>
             </div>
           ) : (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <Button variant="ghost" size="sm" asChild>
                 <Link to="/login">Sign In</Link>
               </Button>
               <Button size="sm" className="btn-gradient" asChild>
-                <Link to="/signup">Join Now</Link>
+                <Link to="/signup">Join</Link>
               </Button>
             </div>
           )}
